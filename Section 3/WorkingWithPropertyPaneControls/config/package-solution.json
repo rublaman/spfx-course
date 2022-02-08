@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "working-with-property-pane-controls-client-side-solution",
+    "id": "9f8ed78c-c16e-4b2f-873e-3cd2ce0204f7",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/working-with-property-pane-controls.sppkg"
+  }
+}
