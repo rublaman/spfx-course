@@ -21,7 +21,17 @@
     "description": { "default": "PropertyPaneWP description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "PropertyPaneWP"
+      "description": "My new PropertyPaneWP Description",
+      "productname": "Producto de ejemplo",
+      "productdescription": "Descripción de ejemplo",
+      "productcost": 10,
+      "quantity": 2,
+      "billamount": 0,
+      "discount": 0,
+      "netbillamount": 0,
+      "isCertified": true,
+      "rating": 1,
+      "processortype": "Intel I7"
     }
   }]
 }
