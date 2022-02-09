@@ -210,13 +210,13 @@ export default class PropertyPaneWpWebPart extends BaseClientSideWebPart<IProper
                       imageSize: { width: 32, height: 32},
                       selectedImageSrc: 'https://img.icons8.com/color/48/000000/microsoft-word-2019--v2.png' },
                     { key: 'MSExcel', text: 'MSExcel', 
-                      imageSrc: 'https://img.icons8.com/external-tal-revivo-regular-tal-revivo/24/000000/external-excel-is-a-spreadsheet-developed-by-microsoft-logo-regular-tal-revivo.png',
+                      imageSrc: 'https://img.icons8.com/ios/50/000000/ms-word.png',
                       imageSize: { width: 32, height: 32},
-                      selectedImageSrc: 'https://img.icons8.com/external-tal-revivo-regular-tal-revivo/24/000000/external-excel-is-a-spreadsheet-developed-by-microsoft-logo-regular-tal-revivo.png' },
+                      selectedImageSrc: 'https://img.icons8.com/color/48/000000/microsoft-word-2019--v2.png' },
                     { key: 'MSPowerPoint', text: 'MSPowerPoint', 
-                      imageSrc: 'https://img.icons8.com/ios-glyphs/30/000000/ms-powerpoint.png',
+                      imageSrc: 'https://img.icons8.com/ios/50/000000/ms-word.png',
                       imageSize: { width: 32, height: 32},
-                      selectedImageSrc: 'https://img.icons8.com/ios-glyphs/30/000000/ms-powerpoint.png' },
+                      selectedImageSrc: 'https://img.icons8.com/color/48/000000/microsoft-word-2019--v2.png' },
                   ]
                 })
               ],
