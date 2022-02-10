@@ -4,7 +4,8 @@ import {
   PropertyPaneTextField,
   PropertyPaneToggle,
   PropertyPaneSlider,
-  PropertyPaneChoiceGroup
+  PropertyPaneChoiceGroup,
+  PropertyPaneDropdown
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { escape } from "@microsoft/sp-lodash-subset";
@@ -25,8 +26,9 @@ export interface IPropertyPaneWpWebPartProps {
 
   isCertified: boolean;
   rating: number;
-  processortype: string;
-  invoicefiletype: string;
+  processorType: string;
+  invoiceFileType: string;
+  newProcessorType: string;
 }
 
 export default class PropertyPaneWpWebPart extends BaseClientSideWebPart<IPropertyPaneWpWebPartProps> {
@@ -92,8 +94,18 @@ export default class PropertyPaneWpWebPart extends BaseClientSideWebPart<IProper
 
                 <tr>
                   <td>Processor Type</td>
-                  <td>${this.properties.processortype}</td>
+                  <td>${this.properties.processorType}</td>
                 </tr>
+
+                <tr>
+                  <td>Invoice File Type</td>
+                  <td>${this.properties.invoiceFileType}</td>
+                </tr>
+
+              <tr>
+                <td>New Processor Type</td>
+                <td>${this.properties.newProcessorType}</td>
+              </tr>
 
               </table>
             </div>
@@ -193,7 +205,7 @@ export default class PropertyPaneWpWebPart extends BaseClientSideWebPart<IProper
                   value: 1
                 }),
 
-                PropertyPaneChoiceGroup('processortype', {
+                PropertyPaneChoiceGroup('processorType', {
                   label: 'Choices',
                   options: [
                     { key: 'Intel I5', text: 'Intel I5' },
@@ -202,22 +214,38 @@ export default class PropertyPaneWpWebPart extends BaseClientSideWebPart<IProper
                   ]
                 }),
 
-                PropertyPaneChoiceGroup('invoicefiletype', {
+                PropertyPaneChoiceGroup('invoiceFileType', {
                   label: 'Select Invoice File Type',
                   options: [
-                    { key: 'MSWord', text: 'MSWord', 
+                    {
+                      key: 'MSWord', text: 'MSWord',
                       imageSrc: 'https://img.icons8.com/ios/50/000000/ms-word.png',
-                      imageSize: { width: 32, height: 32},
-                      selectedImageSrc: 'https://img.icons8.com/color/48/000000/microsoft-word-2019--v2.png' },
-                    { key: 'MSExcel', text: 'MSExcel', 
+                      imageSize: { width: 32, height: 32 },
+                      selectedImageSrc: 'https://img.icons8.com/color/48/000000/microsoft-word-2019--v2.png'
+                    },
+                    {
+                      key: 'MSExcel', text: 'MSExcel',
                       imageSrc: 'https://img.icons8.com/ios/50/000000/ms-word.png',
-                      imageSize: { width: 32, height: 32},
-                      selectedImageSrc: 'https://img.icons8.com/color/48/000000/microsoft-word-2019--v2.png' },
-                    { key: 'MSPowerPoint', text: 'MSPowerPoint', 
+                      imageSize: { width: 32, height: 32 },
+                      selectedImageSrc: 'https://img.icons8.com/color/48/000000/microsoft-word-2019--v2.png'
+                    },
+                    {
+                      key: 'MSPowerPoint', text: 'MSPowerPoint',
                       imageSrc: 'https://img.icons8.com/ios/50/000000/ms-word.png',
-                      imageSize: { width: 32, height: 32},
-                      selectedImageSrc: 'https://img.icons8.com/color/48/000000/microsoft-word-2019--v2.png' },
+                      imageSize: { width: 32, height: 32 },
+                      selectedImageSrc: 'https://img.icons8.com/color/48/000000/microsoft-word-2019--v2.png'
+                    },
                   ]
+                }),
+
+                PropertyPaneDropdown('newProcessorType', {
+                  label: "New Processor Type",
+                  options: [
+                    { key: 'Intel I5', text: 'Intel I5' },
+                    { key: 'Intel I7', text: 'Intel I7' },
+                    { key: 'Intel I9', text: 'Intel I9' },
+                  ],
+                  selectedKey: 'Intel I7'
                 })
               ],
             },

@@ -31,7 +31,7 @@
       "netbillamount": 0,
       "isCertified": true,
       "rating": 1,
-      "processortype": "Intel I7"
+      "processorType": "Intel I7"
     }
   }]
 }
