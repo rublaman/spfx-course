@@ -6,7 +6,8 @@ import {
   PropertyPaneSlider,
   PropertyPaneChoiceGroup,
   PropertyPaneDropdown,
-  PropertyPaneCheckbox
+  PropertyPaneCheckbox,
+  PropertyPaneLink
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { escape } from "@microsoft/sp-lodash-subset";
@@ -259,6 +260,18 @@ export default class PropertyPaneWpWebPart extends BaseClientSideWebPart<IProper
                   text: 'Do you have a discount coupon?',
                   checked: false,
                   disabled: false
+                }),
+
+                PropertyPaneLink('', {
+                  href: 'https://github.com',
+                  text: 'Go to github',
+                  target: '_blank',
+                  popupWindowProps: {
+                    height: 500,
+                    width: 500,
+                    positionWindowPosition: 2,
+                    title: 'github'
+                  }
                 })
               ],
             },
