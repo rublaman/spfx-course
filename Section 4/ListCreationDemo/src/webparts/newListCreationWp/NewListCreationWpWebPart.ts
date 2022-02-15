@@ -43,10 +43,8 @@ export default class NewListCreationWpWebPart extends BaseClientSideWebPart<INew
 
   private createNewList(): void {
 
-    var newListName = document.getElementById("txtNewListName")["value"];
-
-    var newListDescription = document.getElementById("txtNewListDescription")["value"];
-
+    let newListName = document.getElementById("txtNewListName")["value"];
+    let newListDescription = document.getElementById("txtNewListDescription")["value"];
     const listUrl: string = this.context.pageContext.web.absoluteUrl + "/_api/web/lists/GetByTitle('" + newListName + "')";
 
     this.context.spHttpClient.get(listUrl, SPHttpClient.configurations.v1)
