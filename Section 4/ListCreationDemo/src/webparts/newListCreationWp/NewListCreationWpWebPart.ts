@@ -41,11 +41,46 @@ export default class NewListCreationWpWebPart extends BaseClientSideWebPart<INew
       .addEventListener('click', () => { this.createNewList(); })
   }
 
-  private createNewList(): void{
+  private createNewList(): void {
 
-    let newListName = document.getElementById('txtNewListName')['value'];
-    let txtNewListDescription = document.getElementById('txtNewListDescription')['value'];
+    var newListName = document.getElementById("txtNewListName")["value"];
 
+    var newListDescription = document.getElementById("txtNewListDescription")["value"];
+
+    const listUrl: string = this.context.pageContext.web.absoluteUrl + "/_api/web/lists/GetByTitle('" + newListName + "')";
+
+    this.context.spHttpClient.get(listUrl, SPHttpClient.configurations.v1)
+      .then((response: SPHttpClientResponse) => {
+        if (response.status === 200) {
+          alert("A List already does exist with this name.");
+          return;
+        }
+        if (response.status === 404) {
+          const url: string = this.context.pageContext.web.absoluteUrl + "/_api/web/lists";
+
+          const listDefinition: any = {
+            "Title": newListName,
+            "Description": newListDescription,
+            "AllowContentTypes": true,
+            "BaseTemplate": 105,
+            "ContentTypesEnabled": true,
+          };
+          const spHttpClientOptions: ISPHttpClientOptions = {
+            "body": JSON.stringify(listDefinition)
+          };
+          this.context.spHttpClient.post(url, SPHttpClient.configurations.v1, spHttpClientOptions)
+            .then((response: SPHttpClientResponse) => {
+              if (response.status === 201) {
+                alert("A new List has been created successfully.");
+              } else {
+                alert("Error Message  " + response.status + " - " + response.statusText);
+              }
+            });
+        }
+        else {
+          alert("Error Message. " + response.status + " " + response.statusText);
+        }
+      });
   }
 
   protected get dataVersion(): Version {
