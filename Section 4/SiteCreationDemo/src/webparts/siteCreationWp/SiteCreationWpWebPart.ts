@@ -5,57 +5,99 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { escape } from '@microsoft/sp-lodash-subset';
+import { ISPHttpClientOptions, SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 
 import styles from './SiteCreationWpWebPart.module.scss';
 import * as strings from 'SiteCreationWpWebPartStrings';
+
 
 export interface ISiteCreationWpWebPartProps {
   description: string;
 }
 
-export default class SiteCreationWpWebPart extends BaseClientSideWebPart <ISiteCreationWpWebPartProps> {
+export default class SiteCreationWpWebPart extends BaseClientSideWebPart<ISiteCreationWpWebPartProps> {
 
   public render(): void {
     this.domElement.innerHTML = `
-      <div class="${ styles.siteCreationWp }">
-    <div class="${ styles.container }">
-      <div class="${ styles.row }">
-        <div class="${ styles.column }">
-          <span class="${ styles.title }">Welcome to SharePoint!</span>
-  <p class="${ styles.subTitle }">Customize SharePoint experiences using Web Parts.</p>
-    <p class="${ styles.description }">${escape(this.properties.description)}</p>
-      <a href="https://aka.ms/spfx" class="${ styles.button }">
-        <span class="${ styles.label }">Learn more</span>
-          </a>
-          </div>
-          </div>
-          </div>
-          </div>`;
+      <div class="${styles.siteCreationWp}">
+
+        <h1>Create a New Subsite</h1>
+      
+        <p>Please fill the below details to create a new subsite.</p><br/>
+
+        Sub Site Title: <br/><input type='text' id='txtSubSiteTitle' /><br/>
+
+        Sub Site URL: <br/><input type='text' id='txtSubSiteUrl' /><br/>    
+
+        Sub Site Description: <br/><textarea id='txtSubSiteDescription' rows="5" cols="30"></textarea><br/>              
+        <br/>
+
+        <input type="button" id="btnCreateSubSite" value="Create Sub Site"/><br/>
+
+      </div>`;
+
+    this.bindEvents();
+  }
+
+  private bindEvents(): void {
+    this.domElement.querySelector('#btnCreateSubSite').addEventListener('click', () => { this.createSubSite(); });
+  }
+
+  private createSubSite(): void {
+
+    let subSiteTitle = document.getElementById("txtSubSiteTitle")["value"];
+    let subSiteUrl = document.getElementById("txtSubSiteUrl")["value"];
+    let subSiteDescription = document.getElementById("txtSubSiteDescription")["value"];
+
+    const url: string = this.context.pageContext.web.absoluteUrl + "/_api/web/webinfos/add";
+
+    const spHttpClientOptions: ISPHttpClientOptions = {
+      body: `{
+              "parameters":{
+                "@odata.type": "SP.WebInfoCreationInformation",
+                "Title": "${subSiteTitle}",
+                "Url": "${subSiteUrl}",
+                "Description": "${subSiteDescription}",
+                "Language": 1033,
+                "WebTemplate": "STS#0",
+                "UseUniquePermissions": true
+                }
+              }`
+    };
+
+    this.context.spHttpClient.post(url, SPHttpClient.configurations.v1, spHttpClientOptions)
+      .then((response: SPHttpClientResponse) => {
+        if (response.status === 200) {
+          alert("New Subsite has been created successfully");
+        } else {
+          alert("Error Message : " + response.status + " - " + response.statusText);
+        }
+      });
   }
 
   protected get dataVersion(): Version {
-  return Version.parse('1.0');
-}
+    return Version.parse('1.0');
+  }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-  return {
-    pages: [
-      {
-        header: {
-          description: strings.PropertyPaneDescription
-        },
-        groups: [
-          {
-            groupName: strings.BasicGroupName,
-            groupFields: [
-              PropertyPaneTextField('description', {
-                label: strings.DescriptionFieldLabel
-              })
-            ]
-          }
-        ]
-      }
-    ]
-  };
-}
+    return {
+      pages: [
+        {
+          header: {
+            description: strings.PropertyPaneDescription
+          },
+          groups: [
+            {
+              groupName: strings.BasicGroupName,
+              groupFields: [
+                PropertyPaneTextField('description', {
+                  label: strings.DescriptionFieldLabel
+                })
+              ]
+            }
+          ]
+        }
+      ]
+    };
+  }
 }
