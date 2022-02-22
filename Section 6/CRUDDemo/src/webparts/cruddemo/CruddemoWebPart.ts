@@ -19,6 +19,14 @@ export interface ICruddemoWebPartProps {
   description: string;
 }
 
+export interface IItemBody {
+  Title: string,
+  SoftwareVendor: string,
+  SoftwareDescription: string,
+  SoftwareName: string,
+  SoftwareVersion: string
+}
+
 export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebPartProps> {
 
   public render(): void {
@@ -86,6 +94,30 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
     this.domElement.querySelector('#btnSubmit').addEventListener('click', () => this.addListItem());
     this.domElement.querySelector('#btnRead').addEventListener('click', () => this.readListItem());
     this.domElement.querySelector('#btnUpdate').addEventListener('click', () => this.updateListItem());
+    this.domElement.querySelector('#btnDelete').addEventListener('click', ()=> this.deleteListItem());
+  }
+  private deleteListItem(): void {
+    let id: string = document.getElementById('txtID')['value'];
+    const url = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items(" + id + ")";
+
+    const headers: any = {
+      "X-HTTP-Method": "DELETE",
+      "IF-MATCH": "*",
+    }
+
+    const spHtpClientOptions: ISPHttpClientOptions = {
+      "headers": headers,
+    };
+
+    let msg: Element = this.domElement.querySelector('#divStatus');
+    this.context.spHttpClient.post(url, SPHttpClient.configurations.v1, spHtpClientOptions)
+      .then(res => {
+        if (res.status === 204) {
+          msg.innerHTML = "Delete: List item has been deleted successfully";
+        } else {
+          msg.innerHTML = "Failed to delete... " + res.status + " - " + res.statusText;
+        }
+      })
   }
 
   private updateListItem(): void {
@@ -97,7 +129,7 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
     let id: string = document.getElementById('txtID')['value'];
 
     const url = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items(" + id + ")";
-    const itemBody: any = {
+    const itemBody: IItemBody = {
       "Title": softwareTitle,
       "SoftwareVendor": softwareVendor,
       "SoftwareDescription": softwareDescription,
