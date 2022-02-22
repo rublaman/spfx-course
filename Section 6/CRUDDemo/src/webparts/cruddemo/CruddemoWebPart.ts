@@ -111,6 +111,11 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
       const listContainer: Element = this.domElement.querySelector('#divStatus');
       listContainer.innerHTML = html;
     });
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> ab3461d860bf0a376e4b5e01833dd947f7e47775
   }
 
 
@@ -210,7 +215,6 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
 
   private _getListItemById(id: string): Promise<ISoftwareListItem> {
     const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items?$filter=Id eq " + id;
-    console.log(url);
 
     return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
       .then(res => res.json())
