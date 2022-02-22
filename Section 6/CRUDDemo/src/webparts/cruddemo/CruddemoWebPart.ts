@@ -84,11 +84,53 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
 
   private _bindEvents(): void {
     this.domElement.querySelector('#btnSubmit').addEventListener('click', () => this.addListItem());
-    this.domElement.querySelector('#btnRead').addEventListener('click', ()=> this.readListItem());
+    this.domElement.querySelector('#btnRead').addEventListener('click', () => this.readListItem());
+    this.domElement.querySelector('#btnUpdate').addEventListener('click', () => this.updateListItem());
+  }
+
+  private updateListItem(): void {
+    let softwareTitle = document.getElementById('txtSoftwareTitle')['value'];
+    let softwareName = document.getElementById('txtSoftwareName')['value'];
+    let softwareVersion = document.getElementById('txtSoftwareVersion')['value'];
+    let softwareVendor = document.getElementById('ddlSoftwareVendor')['value'];
+    let softwareDescription = document.getElementById('txtSoftwareDescription')['value'];
+    let id: string = document.getElementById('txtID')['value'];
+
+    const url = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items(" + id + ")";
+    const itemBody: any = {
+      "Title": softwareTitle,
+      "SoftwareVendor": softwareVendor,
+      "SoftwareDescription": softwareDescription,
+      "SoftwareName": softwareName,
+      "SoftwareVersion": softwareVersion
+    }
+
+    const headers: any = {
+      "X-HTTP-Method": "MERGE",
+      "IF-MATCH": "*",
+    }
+
+    const spHtpClientOptions: ISPHttpClientOptions = {
+      "headers": headers,
+      "body": JSON.stringify(itemBody)
+    };
+
+    let msg: Element = this.domElement.querySelector('#divStatus');
+    this.context.spHttpClient.post(url, SPHttpClient.configurations.v1, spHtpClientOptions)
+      .then(res => {
+        if (res.status === 204) {
+          msg.innerHTML = "List item has been updated successfully";
+        } else {
+          msg.innerHTML = "List item has been updation failed. " + res.status + " - " + res.statusText;
+        }
+      })
+
   }
 
   private readListItem(): void {
+    this.domElement.querySelector('#divStatus').innerHTML = '';
     let id: string = document.getElementById("txtID")["value"];
+
     this._getListItemById(id).then(listItem => {
       document.getElementById('txtSoftwareTitle')['value'] = listItem.Title;
       document.getElementById('txtSoftwareName')['value'] = listItem.SoftwareName;
@@ -96,6 +138,7 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
       document.getElementById('ddlSoftwareVendor')['value'] = listItem.SoftwareVendor;
       document.getElementById('txtSoftwareDescription')['value'] = listItem.SoftwareDescription;
     }).catch(e => {
+      this.clear();
       let msg: Element = this.domElement.querySelector('#divStatus');
       msg.innerHTML = 'Read: Could not fetch details ...' + e.message;
     })
@@ -104,14 +147,14 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
   private _getListItemById(id: string): Promise<ISoftwareListItem> {
     const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items?$filter=Id eq " + id;
     console.log(url);
-    
+
     return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
       .then(res => res.json())
       .then(listItems => {
         const untypedItem: any = listItems.value[0];
         const listItem: ISoftwareListItem = untypedItem as ISoftwareListItem;
         return listItem;
-      }) as Promise <ISoftwareListItem>
+      }) as Promise<ISoftwareListItem>
   }
 
   private addListItem(): void {
@@ -121,7 +164,7 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
     let softwareVendor = document.getElementById('ddlSoftwareVendor')['value'];
     let softwareDescription = document.getElementById('txtSoftwareDescription')['value'];
 
-    const siteUrl = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items";
+    const url = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items";
     const itemBody: any = {
       "Title": softwareTitle,
       "SoftwareVendor": softwareVendor,
@@ -134,17 +177,15 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
       "body": JSON.stringify(itemBody)
     };
 
+    let msg: Element = this.domElement.querySelector('#divStatus');
     this.context.spHttpClient
-      .post(siteUrl, SPHttpClient.configurations.v1, spHtpClientOptions)
+      .post(url, SPHttpClient.configurations.v1, spHtpClientOptions)
       .then((response: SPHttpClientResponse) => {
-
         if (response.status === 201) {
-          let statusMsg: Element = this.domElement.querySelector('#divStatus');
-          statusMsg.innerHTML = "List item has been created successfully."
+          msg.innerHTML = "List item has been created successfully."
           this.clear();
         } else {
-          let statusMsg: Element = this.domElement.querySelector('#divStatus');
-          statusMsg.innerHTML = "List item has ocurred i.e. " + response.status + " -" + response.statusText;
+          msg.innerHTML = "List item has ocurred i.e. " + response.status + " -" + response.statusText;
         }
       })
   }
