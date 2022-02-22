@@ -13,6 +13,7 @@ import {
 
 import styles from './CruddemoWebPart.module.scss';
 import * as strings from 'CruddemoWebPartStrings';
+import { ISoftwareListItem } from './ISoftwareListItem';
 
 export interface ICruddemoWebPartProps {
   description: string;
@@ -83,6 +84,34 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
 
   private _bindEvents(): void {
     this.domElement.querySelector('#btnSubmit').addEventListener('click', () => this.addListItem());
+    this.domElement.querySelector('#btnRead').addEventListener('click', ()=> this.readListItem());
+  }
+
+  private readListItem(): void {
+    let id: string = document.getElementById("txtID")["value"];
+    this._getListItemById(id).then(listItem => {
+      document.getElementById('txtSoftwareTitle')['value'] = listItem.Title;
+      document.getElementById('txtSoftwareName')['value'] = listItem.SoftwareName;
+      document.getElementById('txtSoftwareVersion')['value'] = listItem.SoftwareVersion;
+      document.getElementById('ddlSoftwareVendor')['value'] = listItem.SoftwareVendor;
+      document.getElementById('txtSoftwareDescription')['value'] = listItem.SoftwareDescription;
+    }).catch(e => {
+      let msg: Element = this.domElement.querySelector('#divStatus');
+      msg.innerHTML = 'Read: Could not fetch details ...' + e.message;
+    })
+  }
+
+  private _getListItemById(id: string): Promise<ISoftwareListItem> {
+    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items?$filter=Id eq " + id;
+    console.log(url);
+    
+    return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
+      .then(res => res.json())
+      .then(listItems => {
+        const untypedItem: any = listItems.value[0];
+        const listItem: ISoftwareListItem = untypedItem as ISoftwareListItem;
+        return listItem;
+      }) as Promise <ISoftwareListItem>
   }
 
   private addListItem(): void {
