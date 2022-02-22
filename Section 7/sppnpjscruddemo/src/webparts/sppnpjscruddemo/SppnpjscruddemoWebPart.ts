@@ -8,13 +8,16 @@ import { escape } from '@microsoft/sp-lodash-subset';
 
 import styles from './SppnpjscruddemoWebPart.module.scss';
 import * as strings from 'SppnpjscruddemoWebPartStrings';
-import * as pnp from 'sp-pnp-js'
+import { spfi, SPFx } from "@pnp/sp";
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
+import "@pnp/sp/items";
 
 export interface ISppnpjscruddemoWebPartProps {
   description: string;
 }
 
-export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart <ISppnpjscruddemoWebPartProps> {
+export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnpjscruddemoWebPartProps> {
 
   public render(): void {
     this.domElement.innerHTML = `
@@ -73,31 +76,54 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart <ISppn
         <hr/>
         <div id="spListData" />
       </div>`;
+    this._bindEvents();
+  }
+
+  private _bindEvents(): void {
+    this.domElement.querySelector('#btnSubmit').addEventListener('click', () => this.addListItem());
+  }
+
+  private async addListItem(): Promise<void> {
+    let softwareTitle = document.getElementById('txtSoftwareTitle')['value'];
+    let softwareName = document.getElementById('txtSoftwareName')['value'];
+    let softwareVersion = document.getElementById('txtSoftwareVersion')['value'];
+    let softwareVendor = document.getElementById('ddlSoftwareVendor')['value'];
+    let softwareDescription = document.getElementById('txtSoftwareDescription')['value'];
+
+
+    const sp = spfi(this.context.pageContext.site.absoluteUrl).using(SPFx(this.context));
+    await sp.web.lists.getByTitle("SoftwareCatalog").items.add({
+      Title: softwareTitle,
+      SoftwareVendor: softwareVendor,
+      SoftwareName: softwareName,
+      SoftwareVersion: softwareVersion,
+      SoftwareDescription: softwareDescription,
+    }).then(r => alert("success"));
   }
 
   protected get dataVersion(): Version {
-  return Version.parse('1.0');
-}
+    return Version.parse('1.0');
+  }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-  return {
-    pages: [
-      {
-        header: {
-          description: strings.PropertyPaneDescription
-        },
-        groups: [
-          {
-            groupName: strings.BasicGroupName,
-            groupFields: [
-              PropertyPaneTextField('description', {
-                label: strings.DescriptionFieldLabel
-              })
-            ]
-          }
-        ]
-      }
-    ]
-  };
-}
+    return {
+      pages: [
+        {
+          header: {
+            description: strings.PropertyPaneDescription
+          },
+          groups: [
+            {
+              groupName: strings.BasicGroupName,
+              groupFields: [
+                PropertyPaneTextField('description', {
+                  label: strings.DescriptionFieldLabel
+                })
+              ]
+            }
+          ]
+        }
+      ]
+    };
+  }
 }
