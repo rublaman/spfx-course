@@ -124,7 +124,6 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
           msg.innerHTML = "List item has been updation failed. " + res.status + " - " + res.statusText;
         }
       })
-
   }
 
   private readListItem(): void {
