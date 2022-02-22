@@ -88,14 +88,47 @@ export default class CruddemoWebPart extends BaseClientSideWebPart<ICruddemoWebP
       </div>`;
 
     this._bindEvents();
+    this.readAllItems();
+  }
+
+  private readAllItems(): void {
+
+    this._getListItems().then(listItems => {
+      let html: string = '<table border=1 width=100% style="border-collapse: collapse;">';
+      html += '<th>Title</th> <th>Vendor</th><th>Description</th><th>Name</th><th>Version</th>';
+
+      listItems.forEach(listItem => {
+        html += `
+        <tr>            
+          <td>${listItem.Title}</td>
+          <td>${listItem.SoftwareVendor}</td>
+          <td>${listItem.SoftwareDescription}</td>
+          <td>${listItem.SoftwareName}</td>
+          <td>${listItem.SoftwareVersion}</td>      
+        </tr>`;
+      });
+      html += '</table>';
+      const listContainer: Element = this.domElement.querySelector('#divStatus');
+      listContainer.innerHTML = html;
+    });
+  }
+
+
+  private _getListItems(): Promise<ISoftwareListItem[]> {
+    const url: string = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items";
+
+    return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
+      .then(res => res.json())
+      .then(json => json.value) as Promise<ISoftwareListItem[]>
   }
 
   private _bindEvents(): void {
     this.domElement.querySelector('#btnSubmit').addEventListener('click', () => this.addListItem());
     this.domElement.querySelector('#btnRead').addEventListener('click', () => this.readListItem());
     this.domElement.querySelector('#btnUpdate').addEventListener('click', () => this.updateListItem());
-    this.domElement.querySelector('#btnDelete').addEventListener('click', ()=> this.deleteListItem());
+    this.domElement.querySelector('#btnDelete').addEventListener('click', () => this.deleteListItem());
   }
+
   private deleteListItem(): void {
     let id: string = document.getElementById('txtID')['value'];
     const url = this.context.pageContext.site.absoluteUrl + "/_api/web/lists/getbytitle('SoftwareCatalog')/items(" + id + ")";
