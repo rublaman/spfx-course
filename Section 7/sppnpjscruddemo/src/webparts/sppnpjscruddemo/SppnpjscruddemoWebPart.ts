@@ -29,6 +29,14 @@ export interface ISppnpjscruddemoWebPartProps {
   description: string;
 }
 
+export interface IListSoftwareCatalog {
+  Title: string;
+  SoftwareName: string;
+  SoftwareVendor: string;
+  SoftwareVersion: string;
+  SoftwareDescription: string;
+}
+
 export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnpjscruddemoWebPartProps> {
 
   public render(): void {
@@ -95,12 +103,13 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
   }
 
   private _bindEvents(): void {
-    this.domElement.querySelector('#btnSubmit').addEventListener('click', () => { this.addListItem(); });
+    this.domElement.querySelector('#btnSubmit').addEventListener('click', () => this.addListItem());
+    this.domElement.querySelector('#btnRead').addEventListener('click', () => this.readListItem());
   }
 
   private async addListItem(): Promise<void> {
     console.log("ENTRO");
-    
+
     var softwareTitle = document.getElementById("txtSoftwareTitle")["value"];
     var softwareName = document.getElementById("txtSoftwareName")["value"];
     var softwareVersion = document.getElementById("txtSoftwareVersion")["value"];
@@ -119,11 +128,25 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
       })
       alert("Elemento creado!")
     } catch (error) {
-      console.log("ERROR >>>>>>>>>>" , error);
+      console.log("ERROR >>>>>>>>>>", error);
     }
   }
 
-  
+  private async readListItem(): Promise<void> {
+    const id = document.getElementById('txtID')['value'];
+
+    sp.setup(this.context)
+    const item: IListSoftwareCatalog = await sp.web.lists.getById('62dec856-08bc-4eb2-9287-0363b352d865').items.getById(id).get();
+    
+    console.log(item);
+    console.log(item.SoftwareDescription);
+
+    document.getElementById('txtSoftwareTitle')['value'] = item.Title;
+    document.getElementById('txtSoftwareName')['value'] = item.SoftwareName;
+    document.getElementById('txtSoftwareVersion')['value'] = item.SoftwareVersion;
+    document.getElementById('ddlSoftwareVendor')['value'] = item.SoftwareVendor;
+    document.getElementById('txtSoftwareDescription')['value'] = item.SoftwareDescription;
+  }
 
   protected get dataVersion(): Version {
     return Version.parse('1.0');
