@@ -105,6 +105,7 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
   private _bindEvents(): void {
     this.domElement.querySelector('#btnSubmit').addEventListener('click', () => this.addListItem());
     this.domElement.querySelector('#btnRead').addEventListener('click', () => this.readListItem());
+    this.domElement.querySelector('#btnUpdate').addEventListener('click', () => this.updateListItem());
   }
 
   private async addListItem(): Promise<void> {
@@ -135,9 +136,9 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
   private async readListItem(): Promise<void> {
     const id = document.getElementById('txtID')['value'];
 
-    sp.setup(this.context)
+    sp.setup(this.context);
+
     const item: IListSoftwareCatalog = await sp.web.lists.getById('62dec856-08bc-4eb2-9287-0363b352d865').items.getById(id).get();
-    
     console.log(item);
     console.log(item.SoftwareDescription);
 
@@ -146,6 +147,35 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
     document.getElementById('txtSoftwareVersion')['value'] = item.SoftwareVersion;
     document.getElementById('ddlSoftwareVendor')['value'] = item.SoftwareVendor;
     document.getElementById('txtSoftwareDescription')['value'] = item.SoftwareDescription;
+  }
+
+  private async updateListItem(): Promise<void> {
+    
+    let id: number = document.getElementById('txtID')['value'];
+
+    debugger
+
+    let item: IListSoftwareCatalog = {
+      Title: '',
+      SoftwareName: '',
+      SoftwareVendor: '',
+      SoftwareVersion: '',
+      SoftwareDescription: ''
+    };
+    
+    item.Title = document.getElementById('txtSoftwareTitle')['value'];    
+    item.SoftwareName = document.getElementById('txtSoftwareName')['value'];
+    item.SoftwareVersion = document.getElementById('txtSoftwareVersion')['value'];
+    item.SoftwareVendor = document.getElementById('ddlSoftwareVendor')['value'];
+    item.SoftwareDescription= document.getElementById('txtSoftwareDescription')['value'];
+
+    sp.setup(this.context);
+
+    try {
+      sp.web.lists.getById('62dec856-08bc-4eb2-9287-0363b352d865').items.getById(id).update(item);
+    } catch (error) {
+      console.log("ERROR >>>", error);
+    }  
   }
 
   protected get dataVersion(): Version {
