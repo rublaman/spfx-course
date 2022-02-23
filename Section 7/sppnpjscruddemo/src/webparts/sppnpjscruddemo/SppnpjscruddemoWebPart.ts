@@ -9,6 +9,22 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import styles from './SppnpjscruddemoWebPart.module.scss';
 import * as strings from 'SppnpjscruddemoWebPartStrings';
 
+import "@pnp/sp/lists";
+import "@pnp/sp/items";
+import "@pnp/sp/webs";
+import "@pnp/sp/fields";
+import "@pnp/sp/comments";
+import "@pnp/sp/views";
+import "@pnp/sp/content-types";
+import "@pnp/sp/site-groups";
+import "@pnp/sp/site-users";
+import "@pnp/sp/security";
+import "@pnp/sp/folders";
+import "@pnp/sp/folders/list";
+import "@pnp/sp/folders/item";
+import "@pnp/sp/attachments";
+import { sp } from "@pnp/sp";
+
 export interface ISppnpjscruddemoWebPartProps {
   description: string;
 }
@@ -74,7 +90,40 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
 
 
     </div>`;
+
+    this._bindEvents();
   }
+
+  private _bindEvents(): void {
+    this.domElement.querySelector('#btnSubmit').addEventListener('click', () => { this.addListItem(); });
+  }
+
+  private async addListItem(): Promise<void> {
+    console.log("ENTRO");
+    
+    var softwareTitle = document.getElementById("txtSoftwareTitle")["value"];
+    var softwareName = document.getElementById("txtSoftwareName")["value"];
+    var softwareVersion = document.getElementById("txtSoftwareVersion")["value"];
+    var softwareVendor = document.getElementById("ddlSoftwareVendor")["value"];
+    var softwareDescription = document.getElementById("txtSoftwareDescription")["value"];
+
+    sp.setup(this.context)
+
+    try {
+      await sp.web.lists.getById("62dec856-08bc-4eb2-9287-0363b352d865").items.add({
+        Title: softwareTitle,
+        SoftwareName: softwareName,
+        SoftwareVendor: softwareVendor,
+        SoftwareVersion: softwareVersion,
+        SoftwareDescription: softwareDescription
+      })
+      alert("Elemento creado!")
+    } catch (error) {
+      console.log("ERROR >>>>>>>>>>" , error);
+    }
+  }
+
+  
 
   protected get dataVersion(): Version {
     return Version.parse('1.0');
