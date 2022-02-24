@@ -100,6 +100,7 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
     </div>`;
 
     this._bindEvents();
+    this.readAllItems();
   }
 
   private _bindEvents(): void {
@@ -150,7 +151,7 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
   }
 
   private async updateListItem(): Promise<void> {
-    
+
     let id: number = document.getElementById('txtID')['value'];
 
     debugger
@@ -162,20 +163,45 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
       SoftwareVersion: '',
       SoftwareDescription: ''
     };
-    
-    item.Title = document.getElementById('txtSoftwareTitle')['value'];    
+
+    item.Title = document.getElementById('txtSoftwareTitle')['value'];
     item.SoftwareName = document.getElementById('txtSoftwareName')['value'];
     item.SoftwareVersion = document.getElementById('txtSoftwareVersion')['value'];
     item.SoftwareVendor = document.getElementById('ddlSoftwareVendor')['value'];
-    item.SoftwareDescription= document.getElementById('txtSoftwareDescription')['value'];
+    item.SoftwareDescription = document.getElementById('txtSoftwareDescription')['value'];
 
     sp.setup(this.context);
 
     try {
-      sp.web.lists.getById('62dec856-08bc-4eb2-9287-0363b352d865').items.getById(id).update(item);
+      await sp.web.lists.getById('62dec856-08bc-4eb2-9287-0363b352d865').items.getById(id).update(item);
     } catch (error) {
       console.log("ERROR >>>", error);
-    }  
+    }
+  }
+
+  public async readAllItems(): Promise<void> {
+
+    let html: string = '<table border=1 width=100% style="bordercollapse: collapse;">';
+    html += `<th>Title</th><th>Vendor</th><th>Name</th><th>Version</th><th>Description</th>`;
+
+    sp.setup(this.context);
+
+    const items: IListSoftwareCatalog[] = await sp.web.lists.getById('62dec856-08bc-4eb2-9287-0363b352d865').items.get();   
+
+    for (const item of items) {
+      html += `
+          <tr>
+          <td>${item.Title}</td>
+          <td>${item.SoftwareVendor}</td>
+          <td>${item.SoftwareName}</td>
+          <td>${item.SoftwareVersion}</td>
+          <td>${item.SoftwareDescription}</td>
+          </tr>
+      `;
+    }
+    html += `</table>`;
+    const allitems: Element = this.domElement.querySelector('#spListData');
+    allitems.innerHTML = html;
   }
 
   protected get dataVersion(): Version {
