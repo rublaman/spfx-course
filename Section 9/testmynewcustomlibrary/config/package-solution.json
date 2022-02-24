@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "testmynewcustomlibrary-client-side-solution",
+    "id": "0c628593-63d3-4f23-8a2a-798f05a5f0a6",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/testmynewcustomlibrary.sppkg"
+  }
+}
