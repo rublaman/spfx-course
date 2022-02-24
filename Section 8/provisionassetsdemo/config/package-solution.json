@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "provisionassetsdemo-client-side-solution",
+    "id": "c0a642b3-6245-41fb-ab6c-2fea78942f30",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/provisionassetsdemo.sppkg"
+  }
+}
