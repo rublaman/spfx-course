@@ -86,7 +86,6 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
               <input type='submit'  value='Insert Item' id='btnSubmit' />
               <input type='submit'  value='Update' id='btnUpdate' />
               <input type='submit'  value='Delete' id='btnDelete' />
-              <input type='submit'  value='Show All Records' id='btnReadAll' />
             </td>
           </tr>
         </table>
@@ -107,6 +106,7 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
     this.domElement.querySelector('#btnSubmit').addEventListener('click', () => this.addListItem());
     this.domElement.querySelector('#btnRead').addEventListener('click', () => this.readListItem());
     this.domElement.querySelector('#btnUpdate').addEventListener('click', () => this.updateListItem());
+    this.domElement.querySelector('#btnDelete').addEventListener('click', () => this.deleteListItem());
   }
 
   private async addListItem(): Promise<void> {
@@ -154,8 +154,6 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
 
     let id: number = document.getElementById('txtID')['value'];
 
-    debugger
-
     let item: IListSoftwareCatalog = {
       Title: '',
       SoftwareName: '',
@@ -174,6 +172,20 @@ export default class SppnpjscruddemoWebPart extends BaseClientSideWebPart<ISppnp
 
     try {
       await sp.web.lists.getById('62dec856-08bc-4eb2-9287-0363b352d865').items.getById(id).update(item);
+    } catch (error) {
+      console.log("ERROR >>>", error);
+    }
+  }
+
+  private async deleteListItem(): Promise<void> {
+    const id: number = document.getElementById('txtID')['value'];
+    debugger
+
+    sp.setup(this.context);
+
+    try {
+      await sp.web.lists.getById('62dec856-08bc-4eb2-9287-0363b352d865').items.getById(id).delete();
+      alert("Item deleted successfully!");
     } catch (error) {
       console.log("ERROR >>>", error);
     }
