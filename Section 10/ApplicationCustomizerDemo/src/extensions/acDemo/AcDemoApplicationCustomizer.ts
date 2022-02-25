@@ -28,8 +28,8 @@ export interface IAcDemoApplicationCustomizerProperties {
 export default class AcDemoApplicationCustomizer
   extends BaseApplicationCustomizer<IAcDemoApplicationCustomizerProperties> {
 
-    private _topPlaceholder: PlaceholderContent | undefined;
-    private _bottomPlaceholder: PlaceholderContent | undefined;
+  private _topPlaceholder: PlaceholderContent | undefined;
+  private _bottomPlaceholder: PlaceholderContent | undefined;
 
   @override
   public onInit(): Promise<void> {
@@ -42,29 +42,28 @@ export default class AcDemoApplicationCustomizer
   }
 
   private _renderPlaceHolders(): void {
-    
+
     console.log('Available placeholders are : ',
-    this.context.placeholderProvider.placeholderNames.map(placeholdername => PlaceholderName[placeholdername]).join(', '));
-    
-    
+      this.context.placeholderProvider.placeholderNames.map(placeholdername => PlaceholderName[placeholdername]).join(', '));
+
     if (!this._topPlaceholder) {
       this._topPlaceholder =
         this.context.placeholderProvider.tryCreateContent(
           PlaceholderName.Top,
           { onDispose: this._onDispose });
-    
-    
+
+
       if (!this._topPlaceholder) {
         console.error('The placeholder Top was not found...');
         return;
       }
-    
+
       if (this.properties) {
         let topString: string = this.properties.top;
         if (!topString) {
           topString = '(Top property was not defined...)';
         }
-    
+
         if (this._topPlaceholder.domElement) {
           this._topPlaceholder.domElement.innerHTML = `
             <div class="${styles.acdemoapp}">
@@ -75,26 +74,24 @@ export default class AcDemoApplicationCustomizer
         }
       }
     }
-    
-    
+
     if (!this._bottomPlaceholder) {
       this._bottomPlaceholder =
         this.context.placeholderProvider.tryCreateContent(
           PlaceholderName.Bottom,
           { onDispose: this._onDispose });
-    
-    
+
       if (!this._bottomPlaceholder) {
         console.error('The placeholder Bottom was not found...');
         return;
       }
-    
+
       if (this.properties) {
         let bottomString: string = this.properties.bottom;
         if (!bottomString) {
           bottomString = '(Bottom property was not defined...)';
         }
-    
+
         if (this._bottomPlaceholder.domElement) {
           this._bottomPlaceholder.domElement.innerHTML = `
             <div class="${styles.acdemoapp}">
