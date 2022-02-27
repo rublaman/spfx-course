@@ -54,14 +54,14 @@ export default class AcDemoApplicationCustomizer
 
 
       if (!this._topPlaceholder) {
-        console.error('The placeholder Top was not found...');
+        console.error('The placeholder Top was not found.');
         return;
       }
 
       if (this.properties) {
         let topString: string = this.properties.top;
         if (!topString) {
-          topString = '(Top property was not defined...)';
+          topString = '(Top property was not defined.)';
         }
 
         if (this._topPlaceholder.domElement) {
