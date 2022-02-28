@@ -3,23 +3,51 @@ import styles from './Reactlifecyclewp.module.scss';
 import { IReactlifecyclewpProps } from './IReactlifecyclewpProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
-export default class Reactlifecyclewp extends React.Component<IReactlifecyclewpProps, {}> {
+export interface IReactlifecyclewpState {
+  stateTitle: string;
+}
+
+export default class Reactlifecyclewp extends React.Component<IReactlifecyclewpProps, IReactlifecyclewpState> {
+
+  public constructor(props: IReactlifecyclewpProps, state: IReactlifecyclewpState) {
+    super(props);
+    this.state = {
+      stateTitle: 'component constructor has been called',
+    }
+
+    this.updateState = this.updateState.bind(this);
+
+    console.log('State title from constructor: ', this.state.stateTitle);
+  }
+
+  public componentWillMount(): void {
+    console.log('componentWillMount has been called');
+  }
+
+  public componentDidMount(): void {
+      console.log('Stage title from componentDidMount:', this.state.stateTitle);
+      this.setState({
+        stateTitle: 'componentDidMount has been called'
+      })
+  }
+
+  public updateState(): void {
+    this.setState({
+      stateTitle: 'changeState has been called'
+    })
+  }
+
   public render(): React.ReactElement<IReactlifecyclewpProps> {
     return (
-      <div className={ styles.reactlifecyclewp }>
-        <div className={ styles.container }>
-          <div className={ styles.row }>
-            <div className={ styles.column }>
-              <span className={ styles.title }>Welcome to SharePoint!</span>
-              <p className={ styles.subTitle }>Customize SharePoint experiences using Web Parts.</p>
-              <p className={ styles.description }>{escape(this.props.description)}</p>
-              <a href="https://aka.ms/spfx" className={ styles.button }>
-                <span className={ styles.label }>Learn more</span>
-              </a>
-            </div>
-          </div>
-        </div>
+      <div>
+        <h1>ReactJS component's lifecycle</h1>
+        <h3>{this.state.stateTitle}</h3>
+        <button onClick={this.updateState}>click here to update the state data</button>
       </div>
     );
+  }
+
+  public componentWillUnmount(): void {
+      console.log('Component will unmount has been called');
   }
 }
