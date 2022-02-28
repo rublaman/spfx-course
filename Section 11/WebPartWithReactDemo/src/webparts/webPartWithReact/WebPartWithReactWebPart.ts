@@ -21,7 +21,11 @@ export default class WebPartWithReactWebPart extends BaseClientSideWebPart <IWeb
     const element: React.ReactElement<IWebPartWithReactProps> = React.createElement(
       WebPartWithReact,
       {
-        description: this.properties.description
+        description: this.properties.description,
+        absoluteUrl: this.context.pageContext.web.absoluteUrl,
+        siteTitle: this.context.pageContext.web.title,
+        relativeUrl: this.context.pageContext.web.serverRelativeUrl,
+        username: this.context.pageContext.user.displayName
       }
     );
 
@@ -34,6 +38,10 @@ export default class WebPartWithReactWebPart extends BaseClientSideWebPart <IWeb
 
   protected get dataVersion(): Version {
     return Version.parse('1.0');
+  }
+
+  protected get disableReactivePropertyChanges(): boolean {
+    return true;
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {

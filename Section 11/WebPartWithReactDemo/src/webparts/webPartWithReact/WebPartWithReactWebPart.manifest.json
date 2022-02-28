@@ -21,7 +21,7 @@
     "description": { "default": "WebPartWithReact description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "WebPartWithReact"
+      "description": "WebPartWithReact!!!"
     }
   }]
 }
