@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "r-show-list-items-client-side-solution",
+    "id": "23dbc826-b94c-4f3e-9bc0-44ddb43725b4",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/r-show-list-items.sppkg"
+  }
+}
