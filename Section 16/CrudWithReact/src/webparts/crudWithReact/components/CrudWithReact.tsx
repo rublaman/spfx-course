@@ -56,9 +56,26 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
       }
     }
 
+
     this._selection = new Selection({
-      onSelectionChanged: () => this.setState({ softwareListItem: this._selection.getSelection()[0] as ISoftwareListItem }),
+      onSelectionChanged: () => {        
+        if (this._selection.count === 1) {
+          this.setState({ softwareListItem: this._selection.getSelection()[0] as ISoftwareListItem })
+        } else {
+          this.setState({
+            softwareListItem: {
+              ID: 0,
+              Title: "",
+              softwareName: "",
+              softwareVendor: "",
+              softwareDescription: "Select an option",
+              softwareVersion: ""
+            }
+          })
+        }
+      }
     });
+
 
     this._columns = [
       { key: 'ID', name: 'ID', fieldName: 'ID', minWidth: 50, maxWidth: 100, isResizable: true },
@@ -95,98 +112,100 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
   public render(): React.ReactElement<ICrudWithReactProps> {
 
     const dropDownRef = React.createRef<IDropdown>();
-    console.log(this.state.softwareListItem);
-    
+
     return (
       <div className={styles.crudWithReact}>
-        <TextField
-          label='ID'
-          required
-          value={this.state.softwareListItem.ID as any as string}
-          styles={textFieldStyles}
-          onChanged={e => this.state.softwareListItem.ID = e}
-        />
-        <TextField
-          label='Title'
-          required
-          value={this.state.softwareListItem.Title}
-          styles={textFieldStyles}
-          onChanged={e => this.state.softwareListItem.Title = e}
-        />
-        <TextField
-          label='Software Name'
-          required
-          value={this.state.softwareListItem.softwareName}
-          styles={textFieldStyles}
-          onChanged={e => this.state.softwareListItem.softwareName = e}
-        />
-        <TextField
-          label='Software Description'
-          required
-          value={this.state.softwareListItem.softwareDescription}
-          styles={textFieldStyles}
-          onChanged={e => this.state.softwareListItem.softwareDescription = e}
-        />
-        <TextField
-          label='Software Version'
-          required
-          value={this.state.softwareListItem.softwareVersion}
-          styles={textFieldStyles}
-          onChanged={e => this.state.softwareListItem.softwareVersion = e}
-        />
-        <Dropdown
-          componentRef={dropDownRef}
-          placeholder="select an option"
-          label='Software Vendor'
-          options={[
-            { key: 'Microsoft', text: 'Microsoft' },
-            { key: 'Sun', text: 'Sun' },
-            { key: 'Oracle', text: 'Oracle' },
-            { key: 'Google', text: 'Google' }
-          ]}
-          defaultSelectedKey={this.state.softwareListItem.softwareVendor}
-          required
-          styles={narrowDropdownStyles}
-          onChanged={e => this.state.softwareListItem.softwareVendor = e.text}
+        {this.state.softwareListItem.ID !== undefined && (
+          <>
+            <TextField
+              label='ID'
+              required
+              value={this.state.softwareListItem.ID as any as string}
+              styles={textFieldStyles}
+              onChanged={e => this.state.softwareListItem.ID = e}
+            />
+            <TextField
+              label='Title'
+              required
+              value={this.state.softwareListItem.Title}
+              styles={textFieldStyles}
+              onChanged={e => this.state.softwareListItem.Title = e}
+            />
+            <TextField
+              label='Software Name'
+              required
+              value={this.state.softwareListItem.softwareName}
+              styles={textFieldStyles}
+              onChanged={e => this.state.softwareListItem.softwareName = e}
+            />
+            <TextField
+              label='Software Description'
+              required
+              value={this.state.softwareListItem.softwareDescription}
+              styles={textFieldStyles}
+              onChanged={e => this.state.softwareListItem.softwareDescription = e}
+            />
+            <TextField
+              label='Software Version'
+              required
+              value={this.state.softwareListItem.softwareVersion}
+              styles={textFieldStyles}
+              onChanged={e => this.state.softwareListItem.softwareVersion = e}
+            />
+            <Dropdown
+              componentRef={dropDownRef}
+              placeholder="select an option"
+              label='Software Vendor'
+              options={[
+                { key: 'Microsoft', text: 'Microsoft' },
+                { key: 'Sun', text: 'Sun' },
+                { key: 'Oracle', text: 'Oracle' },
+                { key: 'Google', text: 'Google' }
+              ]}
+              defaultSelectedKey={this.state.softwareListItem.softwareVendor}
+              required
+              styles={narrowDropdownStyles}
+              onChanged={e => this.state.softwareListItem.softwareVendor = e.text}
+            />
+
+            <p className={styles.title}>
+              {/* 
+        <PrimaryButton
+          text='Add'
+          title='Add'
+          onClick={this.btnAdd_click}
         />
 
-        <p className={styles.title}>
-          {/* 
-          <PrimaryButton
-            text='Add'
-            title='Add'
-            onClick={this.btnAdd_click}
-          />
+        <PrimaryButton
+          text='Update'
+          onClick={this.btnUpdate_click}
+        />
 
-          <PrimaryButton
-            text='Update'
-            onClick={this.btnUpdate_click}
-          />
-
-          <PrimaryButton
-            text='Delete'
-            onClick={this.btnDelete_click}
-          />
-        */}
-        </p>
+        <PrimaryButton
+          text='Delete'
+          onClick={this.btnDelete_click}
+        />
+      */}
+            </p>
 
 
-        <div id="divStatus">
-          {this.state.status}
-        </div>
-
-        <div>
-          <DetailsList
-            items={this.state.softwareListItems}
-            columns={this._columns}
-            setKey='Id'
-            checkboxVisibility={CheckboxVisibility.onHover}
-            selectionMode={SelectionMode.single}
-            layoutMode={DetailsListLayoutMode.fixedColumns}
-            compact={true}
-            selection={this._selection}
-          />
-        </div>
+            <div id="divStatus">
+              {this.state.status}
+            </div>
+            <div>
+              <DetailsList
+                items={this.state.softwareListItems}
+                columns={this._columns}
+                setKey='Id'
+                checkboxVisibility={CheckboxVisibility.onHover}
+                selectionMode={SelectionMode.single}
+                layoutMode={DetailsListLayoutMode.fixedColumns}
+                compact={true}
+                selectionPreservedOnEmptyClick={true}
+                selection={this._selection}
+              />
+            </div>
+          </>)}
       </div >
     )
   }
