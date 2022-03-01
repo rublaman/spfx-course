@@ -21,10 +21,11 @@ export default class CrudWithReactWebPart extends BaseClientSideWebPart <ICrudWi
     const element: React.ReactElement<ICrudWithReactProps> = React.createElement(
       CrudWithReact,
       {
-        description: this.properties.description
+        description: this.properties.description,
+        context: this.context,
+        siteUrl: this.context.pageContext.web.absoluteUrl
       }
     );
-
     ReactDom.render(element, this.domElement);
   }
 

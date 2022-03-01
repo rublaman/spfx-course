@@ -9,6 +9,11 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import styles from './SppnpjscruddemoWebPart.module.scss';
 import * as strings from 'SppnpjscruddemoWebPartStrings';
 
+import { sp } from "@pnp/sp";
+import "@pnp/sp/lists";
+import "@pnp/sp/items";
+import "@pnp/sp/webs";
+
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
