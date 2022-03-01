@@ -15,13 +15,14 @@ export interface IRShowListItemsWebPartProps {
   description: string;
 }
 
-export default class RShowListItemsWebPart extends BaseClientSideWebPart <IRShowListItemsWebPartProps> {
+export default class RShowListItemsWebPart extends BaseClientSideWebPart<IRShowListItemsWebPartProps> {
 
   public render(): void {
     const element: React.ReactElement<IRShowListItemsProps> = React.createElement(
       RShowListItems,
       {
-        description: this.properties.description
+        description: this.properties.description,
+        websiteUrl: this.context.pageContext.web.absoluteUrl
       }
     );
 

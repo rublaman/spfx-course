@@ -9,13 +9,13 @@ export interface IReactlifecyclewpState {
 
 export default class Reactlifecyclewp extends React.Component<IReactlifecyclewpProps, IReactlifecyclewpState> {
 
-  public constructor(props: IReactlifecyclewpProps, state: IReactlifecyclewpState) {
+  public constructor(props: IReactlifecyclewpProps) {
     super(props);
     this.state = {
       stateTitle: 'component constructor has been called',
     }
 
-    this.updateState = this.updateState.bind(this);
+    // this.updateState = this.updateState.bind(this);
 
     console.log('State title from constructor: ', this.state.stateTitle);
   }
@@ -23,6 +23,7 @@ export default class Reactlifecyclewp extends React.Component<IReactlifecyclewpP
   public componentWillMount(): void {
     console.log('componentWillMount has been called');
   }
+
 
   public componentDidMount(): void {
       console.log('Stage title from componentDidMount:', this.state.stateTitle);
@@ -42,7 +43,7 @@ export default class Reactlifecyclewp extends React.Component<IReactlifecyclewpP
       <div>
         <h1>ReactJS component's lifecycle</h1>
         <h3>{this.state.stateTitle}</h3>
-        <button onClick={this.updateState}>click here to update the state data</button>
+        <button onClick={()=>this.updateState()}>click here to update the state data</button>
       </div>
     );
   }
