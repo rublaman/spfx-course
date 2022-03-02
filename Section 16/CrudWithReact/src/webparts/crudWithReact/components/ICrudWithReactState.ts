@@ -4,4 +4,5 @@ export interface ICrudWithReactState {
     status: string;
     softwareListItems: ISoftwareListItem[];
     softwareListItem: ISoftwareListItem;
+    items: ISoftwareListItem[];
 }

@@ -28,7 +28,8 @@ import {
   DetailsRowCheck,
   Selection,
   TooltipHost,
-  IColumn
+  IColumn,
+  MarqueeSelection
 } from 'office-ui-fabric-react';
 
 
@@ -54,15 +55,18 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
         softwareVendor: "",
         softwareDescription: "Select an option",
         softwareVersion: ""
-      }
+      },
+      items: [],
     }
 
 
     this._selection = new Selection({
       onSelectionChanged: () => {
-        if (this._selection.count === 1) {
+        console.log(this._selection);
+        
+        if (this._selection.getSelectedCount() === 1) {
           this.setState({ softwareListItem: this._selection.getSelection()[0] as ISoftwareListItem })
-        } else {
+        } else {          
           this.setState({
             softwareListItem: {
               ID: 0,
@@ -75,7 +79,6 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
           })
         }
       }
-
     });
 
     this._columns = [
@@ -100,7 +103,7 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
   public async bindDetailsList(message: string): Promise<void> {
     try {
       const listItems: ISoftwareListItem[] = await this._getListItems();
-      this.setState({ softwareListItems: listItems, status: message })
+      this.setState({ softwareListItems: listItems, items: listItems, status: message })
     } catch (error) {
       console.log(error);
     }
@@ -162,6 +165,12 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
       console.log('Error updating item to list: ', error);
     }
   }
+
+  private _onFilter = (text: string): void => {
+    this.setState({
+      items: text ? this.state.softwareListItems.filter(i => i.Title.toLowerCase().indexOf(text) > -1) : this.state.softwareListItems
+    });
+  };
 
   public render(): React.ReactElement<ICrudWithReactProps> {
 
@@ -244,11 +253,16 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
             <div id="divStatus">
               {this.state.status}
             </div>
+            <TextField
+              label="Filter by name:"
+              onChange={(e, text)=> this._onFilter(text)}
+              styles={textFieldStyles}
+            />
             <div>
               <DetailsList
-                items={this.state.softwareListItems}
+                items={this.state.items}
                 columns={this._columns}
-                setKey='Id'
+                setKey='ID'
                 checkboxVisibility={CheckboxVisibility.onHover}
                 selectionMode={SelectionMode.single}
                 layoutMode={DetailsListLayoutMode.fixedColumns}
