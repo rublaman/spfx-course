@@ -112,15 +112,40 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
 
   public async btnAdd_click(): Promise<void> {
     sp.setup(this.props.context);
-    if(this.state.softwareListItem.Title !== ""){
+    if (
+      this.state.softwareListItem.Title !== "" ||
+      this.state.softwareListItem.softwareDescription ||
+      this.state.softwareListItem.softwareName ||
+      this.state.softwareListItem.softwareVendor
+    ) {
       try {
         await sp.web.lists.getByTitle('MicrosoftSoftware').items.add(this.state.softwareListItem);
-        this.bindDetailsList("Item added successfully");
+        this.bindDetailsList('Item added successfully');
       } catch (error) {
         console.log('Error adding item to list: ', error);
       }
     } else {
-      this.setState({status: "Add a title"})
+      this.setState({ status: "You must fill in all fields" })
+    }
+  }
+
+  public async btnUpdate_click(): Promise<void> {
+    sp.setup(this.props.context);
+    if (
+      this.state.softwareListItem.ID !== 0
+    ) {
+      try {
+        await sp.web.lists
+          .getByTitle('MicrosoftSoftware').items
+          .getById(this.state.softwareListItem.ID)
+          .update(this.state.softwareListItem)
+
+        this.bindDetailsList('Item updated successfully')
+      } catch (error) {
+        console.log('Error updating item to list: ', error);
+      }
+    } else {
+      this.setState({status: "The submitted ID cannot be 0"})
     }
   }
 
@@ -188,14 +213,16 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
               <PrimaryButton
                 text='Add'
                 title='Add'
-                onClick={()=> this.btnAdd_click()}
+                onClick={() => this.btnAdd_click()}
               />
-              {/* 
 
-        <PrimaryButton
-          text='Update'
-          onClick={this.btnUpdate_click}
-        />
+
+              <PrimaryButton
+                text='Update'
+                onClick={() => this.btnUpdate_click()}
+              />
+
+              {/* 
 
         <PrimaryButton
           text='Delete'
