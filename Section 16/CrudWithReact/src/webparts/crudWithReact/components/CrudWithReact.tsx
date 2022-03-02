@@ -145,14 +145,27 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
         console.log('Error updating item to list: ', error);
       }
     } else {
-      this.setState({status: "The submitted ID cannot be 0"})
+      this.setState({ status: "The submitted ID cannot be 0" })
+    }
+  }
+
+  public async btnDelete_click(): Promise<void> {
+    sp.setup(this.props.context);
+    try {
+      await sp.web.lists
+        .getByTitle('MicrosoftSoftware').items
+        .getById(this.state.softwareListItem.ID)
+        .delete()
+
+      this.bindDetailsList('Item updated successfully')
+    } catch (error) {
+      console.log('Error updating item to list: ', error);
     }
   }
 
   public render(): React.ReactElement<ICrudWithReactProps> {
 
     const dropDownRef = React.createRef<IDropdown>();
-    let { Title } = this.state.softwareListItem;
 
     return (
       <div className={styles.crudWithReact}>
@@ -222,15 +235,11 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
                 onClick={() => this.btnUpdate_click()}
               />
 
-              {/* 
-
-        <PrimaryButton
-          text='Delete'
-          onClick={this.btnDelete_click}
-        />
-      */}
+              <PrimaryButton
+                text='Delete'
+                onClick={() => this.btnDelete_click()}
+              />
             </p>
-
 
             <div id="divStatus">
               {this.state.status}
