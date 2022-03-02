@@ -10,6 +10,7 @@ import { sp } from "@pnp/sp";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
+import { IItemAddResult } from "@pnp/sp/items";
 
 import {
   TextField,
@@ -58,7 +59,7 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
 
 
     this._selection = new Selection({
-      onSelectionChanged: () => {        
+      onSelectionChanged: () => {
         if (this._selection.count === 1) {
           this.setState({ softwareListItem: this._selection.getSelection()[0] as ISoftwareListItem })
         } else {
@@ -74,8 +75,8 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
           })
         }
       }
-    });
 
+    });
 
     this._columns = [
       { key: 'ID', name: 'ID', fieldName: 'ID', minWidth: 50, maxWidth: 100, isResizable: true },
@@ -109,9 +110,24 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
     this.bindDetailsList("All Records have been loaded Successfully");
   }
 
+  public async btnAdd_click(): Promise<void> {
+    sp.setup(this.props.context);
+    if(this.state.softwareListItem.Title !== ""){
+      try {
+        await sp.web.lists.getByTitle('MicrosoftSoftware').items.add(this.state.softwareListItem);
+        this.bindDetailsList("Item added successfully");
+      } catch (error) {
+        console.log('Error adding item to list: ', error);
+      }
+    } else {
+      this.setState({status: "Add a title"})
+    }
+  }
+
   public render(): React.ReactElement<ICrudWithReactProps> {
 
     const dropDownRef = React.createRef<IDropdown>();
+    let { Title } = this.state.softwareListItem;
 
     return (
       <div className={styles.crudWithReact}>
@@ -169,12 +185,12 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
             />
 
             <p className={styles.title}>
+              <PrimaryButton
+                text='Add'
+                title='Add'
+                onClick={()=> this.btnAdd_click()}
+              />
               {/* 
-        <PrimaryButton
-          text='Add'
-          title='Add'
-          onClick={this.btnAdd_click}
-        />
 
         <PrimaryButton
           text='Update'
