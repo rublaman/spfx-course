@@ -4,8 +4,8 @@ import { ICrudWithReactProps } from './ICrudWithReactProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { ICrudWithReactState } from './ICrudWithReactState';
 import { ISoftwareListItem } from './ISoftwareListItem';
-import {IContextualMenuProps} from './ContextualMenu/IContextualMenuProps'
-import { ContextualMenu } from './ContextualMenu/ContextualMenu'
+import { IContextualMenuProps } from '../ContextualMenu/IContextualMenuProps'
+import { ContextualMenu } from '../ContextualMenu/ContextualMenu'
 
 import { sp } from "@pnp/sp";
 import "@pnp/sp/lists";
@@ -83,9 +83,11 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
 
     this._columns = [
       { key: 'ID', name: 'ID', fieldName: 'ID', minWidth: 50, maxWidth: 100, isResizable: true },
-      { key: 'ContextualMenu', name: '', minWidth: 10, onRender: (rotItem: any) => {
-        const element: React.ReactElement<IContextualMenuProps> = React.createElement(ContextualMenu, {}); return element;
-      }},
+      {
+        key: 'ContextualMenu', name: '', minWidth: 10, maxWidth: 20, onRender: () => {
+          const element: React.ReactElement<IContextualMenuProps> = React.createElement(ContextualMenu, {}); return element;
+        }
+      },
       { key: 'Title', name: 'Title', fieldName: 'Title', minWidth: 50, maxWidth: 100, isResizable: true },
       { key: 'softwareName', name: 'softwareName', fieldName: 'softwareName', minWidth: 50, maxWidth: 100, isResizable: true },
       { key: 'softwareVendor', name: 'softwareVendor', fieldName: 'softwareVendor', minWidth: 50, maxWidth: 100, isResizable: true },
@@ -240,13 +242,10 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
                 title='Add'
                 onClick={() => this.btnAdd_click()}
               />
-
-
               <PrimaryButton
                 text='Update'
                 onClick={() => this.btnUpdate_click()}
               />
-
               <PrimaryButton
                 text='Delete'
                 onClick={() => this.btnDelete_click()}
@@ -258,7 +257,7 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
             </div>
             <TextField
               label="Filter by name:"
-              onChange={(e, text)=> this._onFilter(text)}
+              onChange={(e, text) => this._onFilter(text)}
               styles={textFieldStyles}
             />
             <div>

@@ -8,8 +8,8 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'CrudWithReactWebPartStrings';
-import CrudWithReact from './components/CrudWithReact';
-import { ICrudWithReactProps } from './components/ICrudWithReactProps';
+import CrudWithReact from './components/CrudWithReact/CrudWithReact';
+import { ICrudWithReactProps } from './components/CrudWithReact/ICrudWithReactProps';
 
 export interface ICrudWithReactWebPartProps {
   description: string;
