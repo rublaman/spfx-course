@@ -4,13 +4,13 @@ import { ICrudWithReactProps } from './ICrudWithReactProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { ICrudWithReactState } from './ICrudWithReactState';
 import { ISoftwareListItem } from './ISoftwareListItem';
+import {IContextualMenuProps} from './ContextualMenu/IContextualMenuProps'
+import { ContextualMenu } from './ContextualMenu/ContextualMenu'
 
-import { ISPHttpClientOptions, SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http'
 import { sp } from "@pnp/sp";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/webs";
-import { IItemAddResult } from "@pnp/sp/items";
 
 import {
   TextField,
@@ -56,17 +56,17 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
         softwareDescription: "Select an option",
         softwareVersion: ""
       },
-      items: [],
+      items: []
     }
 
 
     this._selection = new Selection({
       onSelectionChanged: () => {
         console.log(this._selection);
-        
+
         if (this._selection.getSelectedCount() === 1) {
           this.setState({ softwareListItem: this._selection.getSelection()[0] as ISoftwareListItem })
-        } else {          
+        } else {
           this.setState({
             softwareListItem: {
               ID: 0,
@@ -83,6 +83,9 @@ export default class CrudWithReact extends React.Component<ICrudWithReactProps, 
 
     this._columns = [
       { key: 'ID', name: 'ID', fieldName: 'ID', minWidth: 50, maxWidth: 100, isResizable: true },
+      { key: 'ContextualMenu', name: '', minWidth: 10, onRender: (rotItem: any) => {
+        const element: React.ReactElement<IContextualMenuProps> = React.createElement(ContextualMenu, {}); return element;
+      }},
       { key: 'Title', name: 'Title', fieldName: 'Title', minWidth: 50, maxWidth: 100, isResizable: true },
       { key: 'softwareName', name: 'softwareName', fieldName: 'softwareName', minWidth: 50, maxWidth: 100, isResizable: true },
       { key: 'softwareVendor', name: 'softwareVendor', fieldName: 'softwareVendor', minWidth: 50, maxWidth: 100, isResizable: true },
