@@ -30,7 +30,7 @@ export class ContextualMenu extends React.Component<IContextualMenuProps, IConte
               {
                 key: 'action1',
                 name: 'Action 1',
-                onClick: ()=> this.handleClick('Action 1')
+                onClick: ()=> this.handleClick('Option 1')
               },
               {
                 key: 'divider_1',
@@ -39,12 +39,12 @@ export class ContextualMenu extends React.Component<IContextualMenuProps, IConte
               {
                 key: 'action2',
                 name: 'Action 2',
-                onClick: ()=> this.handleClick('Action 2')
+                onClick: ()=> this.handleClick('Option 2')
               },
               {
                 key: 'action3',
                 name: 'Action 3',
-                onClick: ()=> this.handleClick('Action 3')
+                onClick: this.handleClick.bind('Option 3')
               },
               {
                 key: 'disabled',
@@ -58,7 +58,9 @@ export class ContextualMenu extends React.Component<IContextualMenuProps, IConte
     );
   }
 
-  private handleClick(source: string) {
+  private handleClick(source:string) {
     alert(`${source} clicked`);
   }
 }
+
+
