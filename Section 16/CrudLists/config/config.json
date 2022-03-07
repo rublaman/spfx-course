@@ -13,6 +13,7 @@
   },
   "externals": {},
   "localizedResources": {
-    "CrudListsWpWebPartStrings": "lib/webparts/crudListsWp/loc/{locale}.js"
+    "CrudListsWpWebPartStrings": "lib/webparts/crudListsWp/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }
