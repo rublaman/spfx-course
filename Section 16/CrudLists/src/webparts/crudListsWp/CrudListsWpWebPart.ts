@@ -11,8 +11,14 @@ import * as strings from 'CrudListsWpWebPartStrings';
 import CrudListsWp from './components/CrudListsWp';
 import { ICrudListsWpProps } from './components/ICrudListsWpProps';
 
+import { 
+  IPropertyFieldList, 
+  PropertyFieldListPicker, 
+  PropertyFieldListPickerOrderBy 
+} from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
 export interface ICrudListsWpWebPartProps {
   description: string;
+  lists: IPropertyFieldList;
 }
 
 export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudListsWpWebPartProps> {
@@ -21,7 +27,8 @@ export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudLists
     const element: React.ReactElement<ICrudListsWpProps> = React.createElement(
       CrudListsWp,
       {
-        description: this.properties.description
+        description: this.properties.description,
+        list: this.properties.lists
       }
     );
 
@@ -47,8 +54,19 @@ export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudLists
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
+                PropertyFieldListPicker('lists', {
+                  label: 'Select a list',
+                  selectedList: this.properties.lists,
+                  includeHidden: false,
+                  orderBy: PropertyFieldListPickerOrderBy.Title,
+                  disabled: false,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  context: this.context,
+                  onGetErrorMessage: null,
+                  deferredValidationTime: 0,
+                  key: 'listPickerFieldId',
+                  includeListTitleAndUrl: true
                 })
               ]
             }

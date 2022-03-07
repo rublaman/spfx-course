@@ -33,6 +33,7 @@ export default class CrudWithReactWebPart extends BaseClientSideWebPart <ICrudWi
     ReactDom.unmountComponentAtNode(this.domElement);
   }
 
+  // @ts-ignore
   protected get dataVersion(): Version {
     return Version.parse('1.0');
   }
