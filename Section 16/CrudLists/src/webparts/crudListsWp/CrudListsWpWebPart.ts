@@ -11,10 +11,10 @@ import * as strings from 'CrudListsWpWebPartStrings';
 import CrudListsWp from './components/CrudListsWp';
 import { ICrudListsWpProps } from './components/ICrudListsWpProps';
 
-import { 
-  IPropertyFieldList, 
-  PropertyFieldListPicker, 
-  PropertyFieldListPickerOrderBy 
+import {
+  IPropertyFieldList,
+  PropertyFieldListPicker,
+  PropertyFieldListPickerOrderBy
 } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
 export interface ICrudListsWpWebPartProps {
   lists: IPropertyFieldList;
@@ -26,11 +26,11 @@ export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudLists
     const element: React.ReactElement<ICrudListsWpProps> = React.createElement(
       CrudListsWp,
       {
-        list: this.properties.lists
+        context: this.context,
+        list: this.properties.lists,
       }
     );
 
-    console.log(this.properties);
     ReactDom.render(element, this.domElement);
   }
 
