@@ -9,11 +9,14 @@
     "test": "gulp test"
   },
   "dependencies": {
+    "@microsoft/rush-stack-compiler-4.2": "^0.1.1",
     "@microsoft/sp-core-library": "1.13.1",
     "@microsoft/sp-lodash-subset": "1.13.1",
     "@microsoft/sp-office-ui-fabric-core": "1.13.1",
     "@microsoft/sp-property-pane": "1.13.1",
     "@microsoft/sp-webpart-base": "1.13.1",
+    "@pnp/graph": "^3.0.3",
+    "@pnp/sp": "^3.0.3",
     "@pnp/spfx-property-controls": "3.5.0",
     "office-ui-fabric-react": "7.174.1",
     "react": "16.13.1",

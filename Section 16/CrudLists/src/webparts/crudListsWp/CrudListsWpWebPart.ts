@@ -17,7 +17,6 @@ import {
   PropertyFieldListPickerOrderBy 
 } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
 export interface ICrudListsWpWebPartProps {
-  description: string;
   lists: IPropertyFieldList;
 }
 
@@ -27,11 +26,11 @@ export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudLists
     const element: React.ReactElement<ICrudListsWpProps> = React.createElement(
       CrudListsWp,
       {
-        description: this.properties.description,
         list: this.properties.lists
       }
     );
 
+    console.log(this.properties);
     ReactDom.render(element, this.domElement);
   }
 
