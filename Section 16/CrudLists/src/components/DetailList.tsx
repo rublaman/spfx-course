@@ -9,8 +9,9 @@ export default class DetailList extends React.Component<IDetailListProps, {}> {
 
     public render(): React.ReactElement<IDetailListProps> {
       return (
-        <>
-        </>
+        <div>
+          {this.props.nameList}
+        </div>
       );
     }
   }

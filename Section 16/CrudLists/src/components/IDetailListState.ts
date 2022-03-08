@@ -1,4 +1,4 @@
 export interface IDetailListState {
     // items: IDetailsListBasicExampleItem[];
-    selectionDetails: string;
+    // selectionDetails: string;
 }

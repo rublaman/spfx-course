@@ -1,1 +1,3 @@
-export interface IDetailListProps {}
+export interface IDetailListProps {
+    nameList: string;
+}
