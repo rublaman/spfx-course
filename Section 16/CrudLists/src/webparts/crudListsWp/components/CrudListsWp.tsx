@@ -18,8 +18,11 @@ export default class CrudListsWp extends React.Component<ICrudListsWpProps, ICru
   private _onConfigure = () => {
     this.props.context.propertyPane.open();
   };
+  
 
-  public render(): React.ReactElement<ICrudListsWpProps> {    
+  public render(): React.ReactElement<ICrudListsWpProps> {
+    console.log("Multicolumn>>>>>>>>>>>>>", this.props.multiColumn);
+    
     return (
       <div>
         {this.props.list ? (

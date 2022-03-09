@@ -33,7 +33,8 @@ export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudLists
       CrudListsWp,
       {
         context: this.context,
-        list: this.properties.lists
+        list: this.properties.lists,
+        multiColumn: this.properties.multiColumn
       }
     );
 
