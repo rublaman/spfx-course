@@ -15,20 +15,6 @@ export default class CrudListsWp extends React.Component<ICrudListsWpProps, ICru
     };    
   }
 
-  // public async componentDidMount(): Promise<void> {
-  //   const elemento = await this._listService.getListItems("Lista 1");
-  //   console.log(elemento);
-  // }
-
-  // public componentDidUpdate(prevProps: ICrudListsWpProps) {
-  //   debugger
-  //   if (this.props.list !== prevProps.list) {
-  //     this.props.list !== undefined
-  //       ? this.setState({ showPlaceHolder: false })
-  //       : this.setState({ showPlaceHolder: true });
-  //   }
-  // }
-
   private _onConfigure = () => {
     this.props.context.propertyPane.open();
   };
