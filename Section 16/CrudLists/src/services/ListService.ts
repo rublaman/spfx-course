@@ -14,7 +14,7 @@ export default class ListService implements IListService {
 
     constructor (context: WebPartContext ){
         this._context = context,
-        this._url = context.pageContext.web.absoluteUrl,
+        this._url = context.pageContext.site.absoluteUrl,
         this._sp = spfi().using(SPFx(this._context));
     }
 

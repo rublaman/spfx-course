@@ -2,29 +2,23 @@ import * as React from "react";
 import styles from "./CrudListsWp.module.scss";
 import { ICrudListsWpProps } from "./ICrudListsWpProps";
 import { ICrudListsState } from "./ICrudListsState";
-import ListService from "../../../services/ListService";
 import DetailList from "../../../components/DetailList";
 import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
 
-export default class CrudListsWp extends React.Component<
-  ICrudListsWpProps,
-  ICrudListsState
-> {
-  private _listService: ListService;
+export default class CrudListsWp extends React.Component<ICrudListsWpProps, ICrudListsState> {
 
   constructor(props: ICrudListsWpProps) {
     super(props);
-    this._listService = new ListService(this.props.context);
 
     this.state = {
       showPlaceHolder: this.props.list === undefined,
     };
   }
 
-  public async componentDidMount(): Promise<void> {
-    // const elemento = await this._listService.getListItems("Lista 1");
-    // console.log(elemento);
-  }
+  // public async componentDidMount(): Promise<void> {
+  //   const elemento = await this._listService.getListItems("Lista 1");
+  //   console.log(elemento);
+  // }
 
   // public componentDidUpdate(prevProps: ICrudListsWpProps) {
   //   debugger
@@ -43,7 +37,10 @@ export default class CrudListsWp extends React.Component<
     return (
       <div>
         {this.props.list ? (
-          React.createElement(DetailList, { nameList: this.props.list.title })
+          <DetailList
+            list={this.props.list}
+            context={this.props.context}
+          />
         ) : (
           <Placeholder
             iconName="Edit"
