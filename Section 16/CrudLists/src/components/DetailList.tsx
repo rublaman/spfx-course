@@ -23,7 +23,7 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
       { key: 'column2', name: 'Value', fieldName: 'Description', minWidth: 100, maxWidth: 200, isResizable: true },
     ];
 
-    this._selection = new Selection({
+    this._selection = new Selection({ 
       onSelectionChanged: () => console.log("_selection>>>>", this._selection.getSelection()[0])
     })
 
@@ -41,8 +41,8 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
   public async bindDetailsList(): Promise<void> {
     try {
       const listItems: any[] = await this._listService.getListItems(this.props.list.title);
-      this.setState({ listItems: listItems });
-      console.log("ITEMS DE LA LISTAS>>>", this.state.listItems);
+      this._selection.setAllSelected(false);
+      this.setState({ listItems: listItems });  // reset selected items
     } catch (error) {
       console.log(error);
     }
