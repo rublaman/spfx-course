@@ -12,7 +12,7 @@ export default class CrudListsWp extends React.Component<ICrudListsWpProps, ICru
 
     this.state = {
       showPlaceHolder: this.props.list === undefined,
-    };
+    };    
   }
 
   // public async componentDidMount(): Promise<void> {
@@ -33,7 +33,7 @@ export default class CrudListsWp extends React.Component<ICrudListsWpProps, ICru
     this.props.context.propertyPane.open();
   };
 
-  public render(): React.ReactElement<ICrudListsWpProps> {
+  public render(): React.ReactElement<ICrudListsWpProps> {    
     return (
       <div>
         {this.props.list ? (

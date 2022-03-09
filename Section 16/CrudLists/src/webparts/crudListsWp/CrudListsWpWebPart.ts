@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
-  IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  IPropertyPaneConfiguration
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
@@ -14,10 +13,17 @@ import { ICrudListsWpProps } from './components/ICrudListsWpProps';
 import {
   IPropertyFieldList,
   PropertyFieldListPicker,
-  PropertyFieldListPickerOrderBy
+  PropertyFieldListPickerOrderBy,
 } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
+import {
+  IColumnReturnProperty,
+  IPropertyFieldRenderOption,
+  PropertyFieldColumnPicker,
+  PropertyFieldColumnPickerOrderBy
+} from '@pnp/spfx-property-controls';
 export interface ICrudListsWpWebPartProps {
   lists: IPropertyFieldList;
+  multiColumn: string;
 }
 
 export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudListsWpWebPartProps> {
@@ -27,7 +33,7 @@ export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudLists
       CrudListsWp,
       {
         context: this.context,
-        list: this.properties.lists,
+        list: this.properties.lists
       }
     );
 
@@ -66,6 +72,23 @@ export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudLists
                   deferredValidationTime: 0,
                   key: 'listPickerFieldId',
                   includeListTitleAndUrl: true
+                }),
+                PropertyFieldColumnPicker('multiColumn', {
+                  label: 'Select columns',
+                  context: this.context,
+                  selectedColumn: this.properties.multiColumn,
+                  listId: this.properties.lists.id,
+                  disabled: false,
+                  orderBy: PropertyFieldColumnPickerOrderBy.Title,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  onGetErrorMessage: null,
+                  deferredValidationTime: 0,
+                  key: 'multiColumnPickerFieldId',
+                  displayHiddenColumns: false,
+                  columnReturnProperty: IColumnReturnProperty.Title,
+                  multiSelect: true,
+                  renderFieldAs: IPropertyFieldRenderOption["Multiselect Dropdown"]
                 })
               ]
             }
