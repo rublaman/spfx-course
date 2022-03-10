@@ -4,4 +4,5 @@ import { IPropertyFieldList } from "@pnp/spfx-property-controls";
 export interface IDetailListProps {
     context: WebPartContext;
     list: IPropertyFieldList;
+    multiColumn: string | string[];
 }

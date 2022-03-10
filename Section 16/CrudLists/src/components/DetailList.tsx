@@ -32,10 +32,12 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
 
   public componentDidMount(): void {
     this.bindDetailsList();
+    this.mapColumn();
   }
 
   public componentDidUpdate(prevProps: IDetailListProps) {
     if (this.props.list !== prevProps.list) this.bindDetailsList();
+    if (this.props.multiColumn !== prevProps.multiColumn) this.mapColumn();
   }
 
   public async bindDetailsList(): Promise<void> {
@@ -48,7 +50,14 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
     }
   }
 
+  public mapColumn(): void{
+    if (this.props.multiColumn instanceof Array) {
+      this.props.multiColumn.map((i) => console.log("COLUMNA > ", i));
+    }
+  }
+
   public render(): React.ReactElement<IDetailListProps> {
+
     return (
       <div>
         <DetailsList

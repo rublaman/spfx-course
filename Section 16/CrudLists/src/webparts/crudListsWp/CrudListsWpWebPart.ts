@@ -23,7 +23,7 @@ import {
 } from '@pnp/spfx-property-controls';
 export interface ICrudListsWpWebPartProps {
   lists: IPropertyFieldList;
-  multiColumn: string;
+  multiColumn: string | string[];
 }
 
 export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudListsWpWebPartProps> {
@@ -36,7 +36,7 @@ export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudLists
         list: this.properties.lists,
         multiColumn: this.properties.multiColumn
       }
-    );
+    );  
 
     ReactDom.render(element, this.domElement);
   }
@@ -78,7 +78,7 @@ export default class CrudListsWpWebPart extends BaseClientSideWebPart<ICrudLists
                   label: 'Select columns',
                   context: this.context,
                   selectedColumn: this.properties.multiColumn,
-                  listId: this.properties.lists.id,
+                  listId: this.properties.lists?.id,
                   disabled: false,
                   orderBy: PropertyFieldColumnPickerOrderBy.Title,
                   onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
