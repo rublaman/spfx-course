@@ -2,7 +2,7 @@ import * as React from "react";
 import styles from "./CrudListsWp.module.scss";
 import { ICrudListsWpProps } from "./ICrudListsWpProps";
 import { ICrudListsState } from "./ICrudListsState";
-import DetailList from "../../../components/DetailList";
+import DetailList from "../../../components/DetailList/DetailList";
 import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
 
 export default class CrudListsWp extends React.Component<ICrudListsWpProps, ICrudListsState> {

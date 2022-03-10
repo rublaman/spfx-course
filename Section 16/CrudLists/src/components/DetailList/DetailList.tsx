@@ -1,6 +1,6 @@
 import { DetailsList, DetailsListLayoutMode, IColumn, Selection, SelectionMode } from 'office-ui-fabric-react';
 import * as React from 'react';
-import ListService from '../services/ListService';
+import ListService from '../../services/ListService';
 import { IDetailListProps } from './IDetailListProps';
 import { IDetailListState } from './IDetailListState';
 
@@ -8,7 +8,6 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
 
   private _listService: ListService;
   private _selection: Selection;
-  // private _columns: IColumn[];
 
   constructor(props: IDetailListProps) {
     super(props);
@@ -18,11 +17,6 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
       seletedItem: {},
       columns: [],
     })
-
-    // this._columns = [
-    //   { key: 'column1', name: 'Title', fieldName: 'Title', minWidth: 100, maxWidth: 200, isResizable: true },
-    //   { key: 'column2', name: 'Value', fieldName: 'Description', minWidth: 100, maxWidth: 200, isResizable: true },
-    // ];
 
     this._selection = new Selection({ 
       onSelectionChanged: () => console.log("_selection>>>>", this._selection.getSelection()[0])
