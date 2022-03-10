@@ -11,7 +11,7 @@ export default class ActionButtons extends React.Component<IActionButtonsProps, 
 	constructor(props: IActionButtonsProps) {
 		super(props);
 
-		// this._listService = new ListService(this.props.context);
+		this._listService = new ListService(this.props.context);
 	}
 
 	render(): React.ReactElement<IActionButtonsProps> {

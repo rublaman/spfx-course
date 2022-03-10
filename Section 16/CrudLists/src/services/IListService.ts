@@ -1,3 +1,4 @@
 export interface IListService {
-    getListItems(name: string): Promise<any[]>;
+    getListItems(nameList: string): Promise<any[]>;
+    addListItem(nameList: string, fields: any): Promise<any[]>
 }
