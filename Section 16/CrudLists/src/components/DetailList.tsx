@@ -8,20 +8,21 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
 
   private _listService: ListService;
   private _selection: Selection;
-  private _columns: IColumn[];
+  // private _columns: IColumn[];
 
   constructor(props: IDetailListProps) {
     super(props);
 
     this.state = ({
       listItems: [],
-      seletedItem: {}
+      seletedItem: {},
+      columns: [],
     })
 
-    this._columns = [
-      { key: 'column1', name: 'Title', fieldName: 'Title', minWidth: 100, maxWidth: 200, isResizable: true },
-      { key: 'column2', name: 'Value', fieldName: 'Description', minWidth: 100, maxWidth: 200, isResizable: true },
-    ];
+    // this._columns = [
+    //   { key: 'column1', name: 'Title', fieldName: 'Title', minWidth: 100, maxWidth: 200, isResizable: true },
+    //   { key: 'column2', name: 'Value', fieldName: 'Description', minWidth: 100, maxWidth: 200, isResizable: true },
+    // ];
 
     this._selection = new Selection({ 
       onSelectionChanged: () => console.log("_selection>>>>", this._selection.getSelection()[0])
@@ -31,13 +32,13 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
   }
 
   public componentDidMount(): void {
-    this.bindDetailsList();
     this.mapColumn();
+    this.bindDetailsList();
   }
 
   public componentDidUpdate(prevProps: IDetailListProps) {
-    if (this.props.list !== prevProps.list) this.bindDetailsList();
     if (this.props.multiColumn !== prevProps.multiColumn) this.mapColumn();
+    if (this.props.list !== prevProps.list) this.bindDetailsList();
   }
 
   public async bindDetailsList(): Promise<void> {
@@ -52,17 +53,19 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
 
   public mapColumn(): void{
     if (this.props.multiColumn instanceof Array) {
-      this.props.multiColumn.map((i) => console.log("COLUMNA > ", i));
+      const columns: IColumn[] = this.props.multiColumn.map((colName) => {
+        return { key: colName, name: colName, fieldName: colName, minWidth: 100, maxWidth: 200, isResizable: true }
+      });
+      this.setState({columns: columns})
     }
   }
 
   public render(): React.ReactElement<IDetailListProps> {
-
     return (
       <div>
         <DetailsList
           items={this.state.listItems}
-          columns={this._columns}
+          columns={this.state.columns}
           setKey="set"
           layoutMode={DetailsListLayoutMode.justified}
           selection={this._selection}
