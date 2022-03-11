@@ -4,7 +4,6 @@ import { ICrudListsWpProps } from "./ICrudListsWpProps";
 import { ICrudListsState } from "./ICrudListsState";
 import DetailList from "../../../components/DetailList/DetailList";
 import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
-import ActionButtons from "../../../components/ActionButtons/ActionButtons";
 
 export default class CrudListsWp extends React.Component<ICrudListsWpProps, ICrudListsState> {
 
@@ -34,9 +33,6 @@ export default class CrudListsWp extends React.Component<ICrudListsWpProps, ICru
               list={this.props.list}
               context={this.props.context}
               multiColumn={this.props.multiColumn} />
-            <ActionButtons 
-              context={this.props.context}
-            />
           </React.Fragment>
         ) : (
           <Placeholder

@@ -1,3 +1,4 @@
+import { DefaultButton, TextField } from 'office-ui-fabric-react';
 import * as React from 'react';
 import ListService from '../../services/ListService';
 import { IActionButtonsProps } from './IActionButtonsProps'
@@ -17,7 +18,18 @@ export default class ActionButtons extends React.Component<IActionButtonsProps, 
 	render(): React.ReactElement<IActionButtonsProps> {
 		return (
 			<div>
-
+				{/* <DefaultButton
+					text='Añadir'
+					// onClick={}
+				/>
+				<DefaultButton
+					text='Modificar'
+					// onClick={}
+				/> */}
+				<DefaultButton
+					text='Eliminar'
+					// onClick={}
+				/>
 			</div>
 		)
 	}
