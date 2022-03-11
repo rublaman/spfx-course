@@ -1,8 +1,9 @@
 import { IColumn } from "office-ui-fabric-react";
+import { IListItem } from "./IListItem";
 
 export interface IDetailListState {
     listItems: any[];
-    seletedItem: {};
+    seletedItem: IListItem;
     columns: IColumn[]; 
-    checked: boolean;
+    disabled: boolean;
 }

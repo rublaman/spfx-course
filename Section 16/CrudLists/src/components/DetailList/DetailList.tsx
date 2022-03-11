@@ -4,6 +4,7 @@ import ListService from '../../services/ListService';
 import ActionButtons from '../ActionButtons/ActionButtons';
 import { IDetailListProps } from './IDetailListProps';
 import { IDetailListState } from './IDetailListState';
+import { IListItem } from './IListItem';
 
 export default class DetailList extends React.Component<IDetailListProps, IDetailListState> {
 
@@ -15,15 +16,18 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
 
     this.state = ({
       listItems: [],
-      seletedItem: {},
+      seletedItem: {
+        Id: 0
+      },
       columns: [],
-      checked: false,
+      disabled: true,
     })
 
     this._selection = new Selection({
       onSelectionChanged: () => {
-        if(!this._selection.getSelection()[0]) return this.setState({checked: false})
-        if(this._selection.getSelection()[0]) return this.setState({checked: true, seletedItem: this._selection.getSelection()[0]})
+        console.log("_selection>>>", this._selection.getSelection()[0]);
+        if(!this._selection.getSelection()[0]) return this.setState({disabled: true})
+        if(this._selection.getSelection()[0]) return this.setState({disabled: false, seletedItem: this._selection.getSelection()[0] as IListItem})
       }
     })
 
@@ -42,6 +46,7 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
 
   public async bindDetailsList(): Promise<void> {
     try {
+      debugger
       const listItems: any[] = await this._listService.getListItems(this.props.list.title);
       this._selection.setAllSelected(false);
       this.setState({ listItems: listItems });  // reset selected items
@@ -60,13 +65,16 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
   }
 
   public render(): React.ReactElement<IDetailListProps> {
+    console.log("_seletedItem>>>", this.state.seletedItem.Id);
+    
     return (
       <div>
         <ActionButtons
           context={this.props.context}
           listName={this.props.list.title}
-          listElement={this.state.seletedItem}
-          checked={this.state.checked}
+          itemId={this.state.seletedItem.Id}
+          disabled={this.state.disabled}
+          bindList={()=> this.bindDetailsList()}
         />
         <DetailsList
           items={this.state.listItems}
