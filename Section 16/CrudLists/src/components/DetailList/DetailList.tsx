@@ -17,10 +17,14 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
       listItems: [],
       seletedItem: {},
       columns: [],
+      checked: false,
     })
 
     this._selection = new Selection({
-      onSelectionChanged: () => console.log("_selection>>>>", this._selection.getSelection()[0])
+      onSelectionChanged: () => {
+        if(!this._selection.getSelection()[0]) return this.setState({checked: false})
+        if(this._selection.getSelection()[0]) return this.setState({checked: true, seletedItem: this._selection.getSelection()[0]})
+      }
     })
 
     this._listService = new ListService(this.props.context);
@@ -60,6 +64,9 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
       <div>
         <ActionButtons
           context={this.props.context}
+          listName={this.props.list.title}
+          listElement={this.state.seletedItem}
+          checked={this.state.checked}
         />
         <DetailsList
           items={this.state.listItems}

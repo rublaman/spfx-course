@@ -35,7 +35,7 @@ export default class ListService implements IListService {
         })
     }
 
-    public async removeListItem(nameList: string, id: number): Promise<void> {
-        await this._sp.web.lists.getByTitle(nameList).items.getById(id).delete()
+    public async removeListItem(nameList: string, listElement: any): Promise<void> {
+        await this._sp.web.lists.getByTitle(nameList).items.getById(listElement.id).delete()
     }
 }

@@ -1,5 +1,8 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export interface IActionButtonsProps {
-    context: WebPartContext
+    context: WebPartContext;
+    listName: string;
+    listElement: {};
+    checked: boolean;
 }

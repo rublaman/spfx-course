@@ -28,7 +28,7 @@ export default class ActionButtons extends React.Component<IActionButtonsProps, 
 				/> */}
 				<DefaultButton
 					text='Eliminar'
-					// onClick={}
+					// onClick={()=> this._listService.removeListItem(this.props.)}
 				/>
 			</div>
 		)
