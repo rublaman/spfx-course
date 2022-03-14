@@ -1,8 +1,8 @@
-import { IItemAddResult, IItemUpdateResult } from "@pnp/sp/items";
+import { IItem, IItemAddResult, IItemUpdateResult } from "@pnp/sp/items";
 
 export interface IListService {
-    getListItems(nameList: string): Promise<any[]>;
+    getListItems(nameList: string): Promise<IItem[]>;
     addListItem(nameList: string, fields: any): Promise<IItemAddResult>;
     updateListItem(nameList: string, id: number, fields: any): Promise<IItemUpdateResult>
-    removeListItem(nameList: string, id: number, func?: { (): void }): Promise<void>;
+    removeListItem(nameList: string, id: number): Promise<void>;
 }

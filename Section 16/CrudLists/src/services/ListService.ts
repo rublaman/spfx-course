@@ -5,7 +5,7 @@ import { SPFI, spfi, SPFx } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
-import { IItemAddResult, IItemUpdateResult } from "@pnp/sp/items";
+import { IItem, IItemAddResult, IItemUpdateResult } from "@pnp/sp/items";
 
 
 export default class ListService implements IListService {
@@ -20,7 +20,7 @@ export default class ListService implements IListService {
         this._sp = spfi().using(SPFx(this._context));
     }
 
-    public getListItems(nameList: string): Promise<any> {
+    public getListItems(nameList: string): Promise<IItem[]> {
         return this._sp.web.lists.getByTitle(nameList).items();
     }
 
@@ -28,7 +28,7 @@ export default class ListService implements IListService {
         return this._sp.web.lists.getByTitle(nameList).items.add(({
             fields
         }))
-    }
+    } 
 
     public updateListItem(nameList: string, id: number, fields: any): Promise<IItemUpdateResult> {
         return this._sp.web.lists.getByTitle(nameList).items.getById(id).update({
