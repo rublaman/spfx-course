@@ -17,7 +17,8 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
     this.state = ({
       listItems: [],
       seletedItem: {
-        Id: 0
+        Id: 0,
+        Title: ""
       },
       columns: [],
       disabled: true,
@@ -47,8 +48,8 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
   public async bindDetailsList(): Promise<void> {
     try {
       const listItems: any[] = await this._listService.getListItems(this.props.list.title);
-      this._selection.setAllSelected(false);
-      this.setState({ listItems: listItems });  // reset selected items
+      this._selection.setAllSelected(false); // reset selected items
+      this.setState({ listItems: listItems });  
     } catch (error) {
       console.log(error);
     }
