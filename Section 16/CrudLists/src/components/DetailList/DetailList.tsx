@@ -48,6 +48,7 @@ export default class DetailList extends React.Component<IDetailListProps, IDetai
   public async bindDetailsList(): Promise<void> {
     try {
       const listItems: any[] = await this._listService.getListItems(this.props.list.title);
+      console.log(listItems);
       this._selection.setAllSelected(false); // reset selected items
       this.setState({ listItems: listItems });  
     } catch (error) {

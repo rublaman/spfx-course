@@ -20,7 +20,7 @@ export default class ListService implements IListService {
         this._sp = spfi().using(SPFx(this._context));
     }
 
-    public getListItems(nameList: string): Promise<IItem[]> {
+    public getListItems(nameList: string): Promise<any> {
         return this._sp.web.lists.getByTitle(nameList).items();
     }
 
