@@ -20,23 +20,27 @@ export default class ListService implements IListService {
         this._sp = spfi().using(SPFx(this._context));
     }
 
+    // return the items of nameList
     public getListItems(nameList: string): Promise<any> {
         return this._sp.web.lists.getByTitle(nameList).items();
     }
 
+    // add fields ofnameList
     public addListItem(nameList: string, fields: any): Promise<IItemAddResult> {
         return this._sp.web.lists.getByTitle(nameList).items.add(({
             fields
         }))
     } 
 
+    // update the field of nameList
     public updateListItem(nameList: string, id: number, fields: any): Promise<IItemUpdateResult> {
         return this._sp.web.lists.getByTitle(nameList).items.getById(id).update({
             fields
         })
     }
 
-    public removeListItem(nameList: string, itemId: any): Promise<void> {
+    // remove an item of nameList by id
+    public removeListItem(nameList: string, itemId: number): Promise<void> {
         return this._sp.web.lists.getByTitle(nameList).items.getById(itemId).delete();
     }
 }

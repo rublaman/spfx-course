@@ -15,6 +15,7 @@ export default class CrudListsWp extends React.Component<ICrudListsWpProps, ICru
     };
   }
 
+  // Open the property pane
   private _onConfigure = () => {
     this.props.context.propertyPane.open();
   };
