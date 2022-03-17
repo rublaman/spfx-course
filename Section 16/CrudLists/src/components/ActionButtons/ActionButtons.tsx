@@ -15,6 +15,7 @@ export default class ActionButtons extends React.Component<IActionButtonsProps, 
 		this._listService = new ListService(this.props.context);
 	}
 
+	
 	public async deleteItem(): Promise<void> {
 		await this._listService.removeListItem(this.props.listName, this.props.itemId);
 		this.props.bindList()
